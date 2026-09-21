@@ -1,0 +1,1 @@
+H:\Document\MTRN3500\PLC Assignment Starting Code\Galil\x64\Debug\Galil.vcxproj.SuggestedBindingRedirects.cache

@@ -1,0 +1,6 @@
+﻿  EmbeddedFunctions.cpp
+  EFMain.cpp
+  .NETFramework,Version=v4.7.2.AssemblyAttributes.cpp
+  Generating Code...
+  EmbeddedFunctions.obj : MSIL module encountered; incremental linking is disabled for MSIL; performing full link
+  EmbeddedFunctions.vcxproj -> H:\Document\MTRN3500\PLC Assignment Starting Code\x64\Debug\EmbeddedFunctions.exe
