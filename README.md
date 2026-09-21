@@ -2,6 +2,9 @@ A repository for the termpory storage of the code for the MTRN3500 assignment 1 
 
 ## Main code location:
 -> ln file for vsStudio
+
 -> Galil folder for Task A files
+
 -> EmbededFunciton folder for the Task B tiles
+
 -> Include folder for the .h files
