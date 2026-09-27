@@ -134,4 +134,7 @@ protected:
 	int setPoint;					// Control Setpoint
 
 	// TODO: Add any new data members or functions BELOW (DO NOT ADD THEM ABOVE THIS LINE)
+	bool FunctionOwnership;
+	char buffer[1024];
+	GSize bytes;
 };

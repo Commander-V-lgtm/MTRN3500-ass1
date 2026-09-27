@@ -1,50 +1,110 @@
 #include "Galil.h"
 
-// TODO: complete this function.
 // Default constructor. Initialize variables, open Galil connection and allocate memory.
 // Should assign a default embedded functions that works with physical hardware and a 
 // default Galil address as described in the assignment spec.
 Galil::Galil() {
+	Functions = new EmbeddedFunctions;
+	FunctionOwnership = true;
+	if (Functions->GOpen("192.168.0.120 -d", &g) != G_NO_ERROR) std::cout << "G connection failed!" << std::endl;
+	ControlParameters[0] = 1.0;
+	ControlParameters[1] = 1.0;
+	ControlParameters[2] = 1.0;
+	setPoint = 0;
 	return;
 }
 
-// TODO: complete this function.
 // Constructor with EmbeddedFunciton pre-initialised and passed in.
-Galil::Galil(EmbeddedFunctions* Funcs, GCStringIn address) {
+Galil::Galil(EmbeddedFunctions* Funcs, GCStringIn address) : Functions(Funcs) {
+	FunctionOwnership = false;
+	if (Functions->GOpen(address, &g) != G_NO_ERROR) std::cout << "G connection failed!" << std::endl;
+	ControlParameters[0] = 1.0;
+	ControlParameters[1] = 1.0;
+	ControlParameters[2] = 1.0;
+	setPoint = 0;
 	return;
 }
 
-// TODO: complete this function.
 // Copy constructor to copy the state of all elements within the object other.
 // It should construct a new EmbeddedFunctions object and open a separate connection
 // (i.e., each class will have a unique value of the GCon g). All other data members
 // should be transferred.
 Galil::Galil(const Galil& other) {
+	Functions = new EmbeddedFunctions;
+	FunctionOwnership = true;
+	if (Functions->GOpen("192.168.0.120 -d", &g) != G_NO_ERROR) std::cout << "G connection failed!" << std::endl;
+	ControlParameters[0] = other.ControlParameters[0];
+	ControlParameters[1] = other.ControlParameters[1];
+	ControlParameters[2] = other.ControlParameters[2];
+	setPoint = other.setPoint;
 	return;
 }
 
-// TODO: complete this function.
 // Default destructor. Deallocate memory and close Galil connection.
 Galil::~Galil() {
+	if (g != nullptr && g != (GCon)0x1) GClose(g);
+	else std::cout << "G failed to be found!" << std::endl;
+	if (FunctionOwnership) delete Functions;
 	return;
 }
 
 // DIGITAL OUTPUTS
-// TODO: complete this function.
 // Write to all 16 bits of digital output, 1 command to the Galil
+// Loop code inspired by bitwise practice example
 void Galil::DigitalOutput(uint16_t value) {
+	int N_BITS = 16;
+	for (int i = 0; i < N_BITS; i++) {
+		int16_t bit_mask = 1 << i;
+		if (value & bit_mask) {
+			std::string command = "SB ";
+			command += std::to_string(i) + ";";
+			Functions->GCommand(g, command.c_str(), buffer, sizeof(buffer), &bytes);
+		}
+		else {
+			std::string command = "CB ";
+			command += std::to_string(i) + ";";
+			Functions->GCommand(g, command.c_str(), buffer, sizeof(buffer), &bytes);
+		}
+	}
 	return;
 }
-// TODO: complete this function.
+	
 // Write to one byte, either high or low byte, as specified by user in 'bank'
 // 0 = low, 1 = high
 void Galil::DigitalByteOutput(bool bank, uint8_t value) {
+	int offset = 0;
+	if (bank) offset = 8;
+	int N_BITS = 8;
+	for (int i = 0; i < N_BITS; i++) {
+		int8_t bit_mask = 1 << i;
+		if (value & bit_mask) {
+			std::string command = "SB ";
+			command += std::to_string(i + offset) + ";";
+			Functions->GCommand(g, command.c_str(), buffer, sizeof(buffer), &bytes);
+		}
+		else {
+			std::string command = "CB ";
+			command += std::to_string(i + offset) + ";";
+			Functions->GCommand(g, command.c_str(), buffer, sizeof(buffer), &bytes);
+		}
+	}
 	return;
 }
 
-// TODO: complete this function.
 // Write single bit to digital outputs. 'bit' specifies which bit
 void Galil::DigitalBitOutput(bool val, uint8_t bit) {
+	int no = static_cast<int>(bit);
+	if (no > 16) return;
+	if (val) {
+		std::string command = "SB ";
+		command += std::to_string(no) + ";";
+		Functions->GCommand(g, command.c_str(), buffer, sizeof(buffer), &bytes);
+	}
+	else {
+		std::string command = "CB ";
+		command += std::to_string(no) + ";";
+		Functions->GCommand(g, command.c_str(), buffer, sizeof(buffer), &bytes);
+	}
 	return;
 }
 
@@ -54,6 +114,10 @@ void Galil::DigitalBitOutput(bool val, uint8_t bit) {
 // Return the 16 bits of input data
 // Query the digital inputs of the GALIL, See Galil command library @IN
 uint16_t Galil::DigitalInput() {
+	// All in loop
+	// if check
+	// read buffer
+	// use postive mask + | to add no; use negative mask + & to remove no
 	return static_cast<uint16_t>(0);
 }
 
