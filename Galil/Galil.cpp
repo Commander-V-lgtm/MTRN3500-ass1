@@ -52,6 +52,7 @@ Galil::~Galil() {
 // Write to all 16 bits of digital output, 1 command to the Galil
 // Loop code inspired by bitwise practice example
 void Galil::DigitalOutput(uint16_t value) {
+	// TODO: Fix and remove loop; use OP
 	int N_BITS = 16;
 	for (int i = 0; i < N_BITS; i++) {
 		int16_t bit_mask = 1 << i;
@@ -72,6 +73,7 @@ void Galil::DigitalOutput(uint16_t value) {
 // Write to one byte, either high or low byte, as specified by user in 'bank'
 // 0 = low, 1 = high
 void Galil::DigitalByteOutput(bool bank, uint8_t value) {
+	// TODO: Fix and remove loop; use OP
 	int offset = 0;
 	if (bank) offset = 8;
 	int N_BITS = 8;
@@ -93,6 +95,7 @@ void Galil::DigitalByteOutput(bool bank, uint8_t value) {
 
 // Write single bit to digital outputs. 'bit' specifies which bit
 void Galil::DigitalBitOutput(bool val, uint8_t bit) {
+	// TODO: Fix and add variable set
 	int no = static_cast<int>(bit);
 	if (no > 16) return;
 	if (val) {
