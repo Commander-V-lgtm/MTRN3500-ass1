@@ -135,6 +135,8 @@ protected:
 
 	// TODO: Add any new data members or functions BELOW (DO NOT ADD THEM ABOVE THIS LINE)
 	bool FunctionOwnership;
-	char buffer[1024];
-	GSize bytes;
+	uint8_t BOUTBank1 = 0b0;
+	uint8_t BOUTBank2 = 0b0;
+	char buff[1024];
+	GSize n;
 };

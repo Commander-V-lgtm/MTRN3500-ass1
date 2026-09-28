@@ -11,14 +11,13 @@ public:
 };
 
 int main(void) {
-	EmbeddedFunctions funcs(true);
+	EmbeddedFunctions funcs;
 	Galil myGalil(&funcs, "192.168.0.120 -d");
 
-	Console::WriteLine("This is the end This is the end This is the end This is the end This is the end ");
-	Console::WriteLine("This is the end This is the end This is the end This is the end This is the end ");
-	Console::WriteLine("This is the end This is the end This is the end This is the end This is the end ");
-	Console::WriteLine("This is the end This is the end This is the end This is the end This is the end ");
-	Console::WriteLine("This is the end This is the end This is the end This is the end This is the end ");
+	Print test;
+	test.print();
+
+	Console::WriteLine("Successful connection!");
 
 	myGalil.DigitalOutput(0b0000111100001111);
 
@@ -31,12 +30,13 @@ int main(void) {
 	myGalil.DigitalBitOutput(0, 3);
 	myGalil.DigitalBitOutput(1, 4);
 
-	Print test;
-	test.print();
+	Console::ReadKey();
+
+	// myGalil.DigitalOutput(0b0);
 
 	Console::ReadKey();
 
-	myGalil.DigitalOutput(0b0);
+	myGalil.DigitalInput();
 
 	Console::ReadKey();
 	return 0;

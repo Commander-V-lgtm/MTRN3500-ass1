@@ -52,62 +52,40 @@ Galil::~Galil() {
 // Write to all 16 bits of digital output, 1 command to the Galil
 // Loop code inspired by bitwise practice example
 void Galil::DigitalOutput(uint16_t value) {
-	// TODO: Fix and remove loop; use OP
-	int N_BITS = 16;
-	for (int i = 0; i < N_BITS; i++) {
-		int16_t bit_mask = 1 << i;
-		if (value & bit_mask) {
-			std::string command = "SB ";
-			command += std::to_string(i) + ";";
-			Functions->GCommand(g, command.c_str(), buffer, sizeof(buffer), &bytes);
-		}
-		else {
-			std::string command = "CB ";
-			command += std::to_string(i) + ";";
-			Functions->GCommand(g, command.c_str(), buffer, sizeof(buffer), &bytes);
-		}
-	}
+	BOUTBank1 = value & 0xFF;
+	BOUTBank2 = (value >> 8) & 0xFF;
+	std::string command = "OP " + std::to_string(BOUTBank1) + ", " + std::to_string(BOUTBank2) + ";";
+	Functions->GCommand(g, command.c_str(), buff, sizeof(buff), &n);
 	return;
 }
 	
 // Write to one byte, either high or low byte, as specified by user in 'bank'
 // 0 = low, 1 = high
 void Galil::DigitalByteOutput(bool bank, uint8_t value) {
-	// TODO: Fix and remove loop; use OP
-	int offset = 0;
-	if (bank) offset = 8;
-	int N_BITS = 8;
-	for (int i = 0; i < N_BITS; i++) {
-		int8_t bit_mask = 1 << i;
-		if (value & bit_mask) {
-			std::string command = "SB ";
-			command += std::to_string(i + offset) + ";";
-			Functions->GCommand(g, command.c_str(), buffer, sizeof(buffer), &bytes);
-		}
-		else {
-			std::string command = "CB ";
-			command += std::to_string(i + offset) + ";";
-			Functions->GCommand(g, command.c_str(), buffer, sizeof(buffer), &bytes);
-		}
-	}
+	if (bank == 0) BOUTBank1 = value;
+	else BOUTBank2 = value;
+	std::string command = "OP " + std::to_string(BOUTBank1) + ", " + std::to_string(BOUTBank2) + ";";
+	Functions->GCommand(g, command.c_str(), buff, sizeof(buff), &n);
 	return;
 }
 
 // Write single bit to digital outputs. 'bit' specifies which bit
 void Galil::DigitalBitOutput(bool val, uint8_t bit) {
-	// TODO: Fix and add variable set
 	int no = static_cast<int>(bit);
-	if (no > 16) return;
+	if (no > 15) return;
+	uint16_t mask = 0b0;
+	if (val) mask = 0b1 << no;
+	else mask = 0xFFFF ^ (0b1 << no);
 	if (val) {
-		std::string command = "SB ";
-		command += std::to_string(no) + ";";
-		Functions->GCommand(g, command.c_str(), buffer, sizeof(buffer), &bytes);
+		BOUTBank1 = BOUTBank1 | (mask & 0xFF);
+		BOUTBank2 = BOUTBank2 | ((mask >> 8) & 0xFF);
 	}
 	else {
-		std::string command = "CB ";
-		command += std::to_string(no) + ";";
-		Functions->GCommand(g, command.c_str(), buffer, sizeof(buffer), &bytes);
+		BOUTBank1 = BOUTBank1 & (mask & 0xFF);
+		BOUTBank2 = BOUTBank2 & ((mask >> 8) & 0xFF);
 	}
+	std::string command = "OP " + std::to_string(BOUTBank1) + ", " + std::to_string(BOUTBank2) + ";";
+	Functions->GCommand(g, command.c_str(), buff, sizeof(buff), &n);
 	return;
 }
 
@@ -121,6 +99,15 @@ uint16_t Galil::DigitalInput() {
 	// if check
 	// read buffer
 	// use postive mask + | to add no; use negative mask + & to remove no
+	// use IQ 65535 if the config is wrong on the Galil
+	for (int i = 0; i < 16; i++) {
+		std::string command = "MG @IN[" + std::to_string(i) + "];";
+		if (Functions->GCommand(g, command.c_str(), buff, sizeof(buff), &n) == 0) {
+			std::string output = buff;
+			double value = std::stod(output);
+			std::cout << value << std::endl;
+		}
+	}
 	return static_cast<uint16_t>(0);
 }
 
