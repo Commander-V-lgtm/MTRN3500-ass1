@@ -17,7 +17,7 @@ int main(void) {
 	Print test;
 	test.print();
 
-	Console::WriteLine("Successful connection!");
+	if(myGalil.CheckSuccessfulWrite()) Console::WriteLine("Successful connection!");
 
 	myGalil.DigitalOutput(0b0000111100001111);
 
@@ -79,7 +79,7 @@ int main(void) {
 	myGalil.setKp(0.001);
 	myGalil.setKi(0.0001);
 	myGalil.setKd(0.0005);
-	myGalil.SpeedControl(true, 0);
+	myGalil.SpeedControl(false, 0);
 
 	Console::ReadKey();
 	myGalil.DigitalOutput(0b0);

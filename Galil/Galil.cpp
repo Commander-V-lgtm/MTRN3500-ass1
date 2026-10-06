@@ -172,7 +172,7 @@ bool Galil::DigitalBitInput(uint8_t bit) {
 bool Galil::CheckSuccessfulWrite() {
 	if (gRet != G_NO_ERROR) return false;
 	std::string buffS = buff;
-	if (buffS.empty() || buffS.find('?') != std::string::npos) return false;
+	if (buffS.find('?') != std::string::npos) return false;
 	return true;
 }
 
