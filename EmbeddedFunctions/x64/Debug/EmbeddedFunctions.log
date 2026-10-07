@@ -1,1 +1,5 @@
 ﻿  EFMain.cpp
+  EmbeddedFunctions.cpp
+  Generating Code...
+  EmbeddedFunctions.obj : MSIL module encountered; incremental linking is disabled for MSIL; performing full link
+  EmbeddedFunctions.vcxproj -> H:\Document\MTRN3500\MTRN3500-ass1-main\x64\Debug\EmbeddedFunctions.exe

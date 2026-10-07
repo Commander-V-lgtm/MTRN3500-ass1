@@ -1,2 +1,4 @@
 H:\Document\MTRN3500\PLC Assignment Starting Code\EmbeddedFunctions\x64\Debug\EmbeddedFunctions.vcxproj.SuggestedBindingRedirects.cache
 H:\Document\MTRN3500\PLC Assignment Starting Code\EmbeddedFunctions\x64\Debug\EmbeddedFunctions.vcxproj.AssemblyReference.cache
+H:\Document\MTRN3500\MTRN3500-ass1-main\EmbeddedFunctions\x64\Debug\EmbeddedFunctions.vcxproj.AssemblyReference.cache
+H:\Document\MTRN3500\MTRN3500-ass1-main\EmbeddedFunctions\x64\Debug\EmbeddedFunctions.vcxproj.SuggestedBindingRedirects.cache
