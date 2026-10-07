@@ -87,5 +87,8 @@ String^ EmbeddedFunctions::GCommand(String^ command) {
 	Response = Text::Encoding::ASCII->GetString(RecvData, 0, GRead);
 	if (Response->Contains("?")) throw gcnew Exception("Unknown Galil command: " + Command);
 
-	return Response;
+	array<wchar_t>^ delims = { L':', L'\n', L'\r'};
+	array<String^>^ output = Response->Split(delims);
+
+	return output[0];
 }

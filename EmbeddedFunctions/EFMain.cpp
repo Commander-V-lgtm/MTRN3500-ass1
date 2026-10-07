@@ -1,4 +1,5 @@
 #include "EmbeddedFunctions.h"
+#include <string>
 
 int main(void) {
 	// Start galil
@@ -16,12 +17,17 @@ int main(void) {
 
 	respond = Galil.GCommand("MG @AN[0]");
 	Console::WriteLine(respond);
+
 	command = respond;
+
+	Console::ReadKey();
+	
 	Galil.GCommand("AO 0," + command);
-	System::Threading::Thread::Sleep(2000);
+	System::Threading::Thread::Sleep(5000);
 	Galil.GCommand("AO 0,0");
 
 	// End program
+	Console::ReadKey();
 	Galil.GClose();
 	return 0;
 }

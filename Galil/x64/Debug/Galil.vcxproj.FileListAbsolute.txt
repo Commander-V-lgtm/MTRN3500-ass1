@@ -2,3 +2,5 @@ H:\Document\MTRN3500\PLC Assignment Starting Code\Galil\x64\Debug\Galil.vcxproj.
 C:\Users\simeo\source\MTRN3500\MTRN3500-ass1-main\Galil\x64\Debug\Galil.vcxproj.AssemblyReference.cache
 H:\Document\MTRN3500\MTRN3500 - PLC Assignment Code\Galil\x64\Debug\Galil.vcxproj.AssemblyReference.cache
 H:\Document\MTRN3500\MTRN3500 - PLC Assignment Code\Galil\x64\Debug\Galil.vcxproj.SuggestedBindingRedirects.cache
+H:\Document\MTRN3500\MTRN3500-ass1-main\Galil\x64\Debug\Galil.vcxproj.AssemblyReference.cache
+H:\Document\MTRN3500\MTRN3500-ass1-main\Galil\x64\Debug\Galil.vcxproj.SuggestedBindingRedirects.cache
